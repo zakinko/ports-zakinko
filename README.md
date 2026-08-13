@@ -52,10 +52,21 @@ make package
 ## 収録 port
 
 | Port | 内容 |
-|---|---|
+| --- | --- |
 | [net/nss_stns](net/nss_stns/) | STNS の名前解決スイッチモジュール |
 | [security/github-keys](security/github-keys/) | GitHub に公開された SSH 鍵を sshd に渡す |
 | [security/stnsd](security/stnsd/) | 小さな STNS API サーバ |
+
+## net/nss_stns が `@postexec` を持っている理由
+
+libc は `dlopen("nss_stns.so.1")` を裸の名前で呼び、set-user-ID の
+プログラムに対して ld.so は `/lib` と `/usr/lib` しか探しません。そのため
+モジュールへの symlink が `/usr/lib` に要ります。無いと `su(1)` や `login(1)`
+が STNS のアカウントを黙って引けなくなります。
+
+`/usr/lib` は `PREFIX` の外で、`make stage` の対象になりません。そこで port は
+`NSSLIBDIR=${PREFIX}/lib` でビルドして upstream の `make install` が張る
+symlink を止め、`pkg-plist` の `@postexec` / `@postunexec` から張っています。
 
 ## DragonFly (DPorts)
 
