@@ -1,0 +1,2 @@
+libexec/github-keys
+@sample share/examples/github-keys/github-keys.map etc/github-keys.map
