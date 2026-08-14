@@ -1,7 +1,7 @@
 PORTNAME=	stnsd
 DISTVERSIONPREFIX=	v
 DISTVERSION=	0.2.0
-CATEGORIES=	security
+CATEGORIES=	zakinko security
 
 MAINTAINER=	zakinko@snowrabbit.org
 COMMENT=	Small STNS API server

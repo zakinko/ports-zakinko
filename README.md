@@ -2,35 +2,46 @@
 
 zakinko が自作したソフトウェアの FreeBSD port 置き場。
 
-本家 ports ツリーの `net` や `security` に直接ファイルを置かず、オーバーレイと
-して重ねています。本家を更新しても自作分が消えず、どれが自作かも一目で
-分かります。
-
-pkgsrc 版は [pkgsrc-zakinko](https://github.com/zakinko/pkgsrc-zakinko) に
-あります。
+本家 ports ツリーの `net` や `security` に混ぜず、`zakinko` という独立した
+カテゴリとして切っています。本家を更新しても自作分が消えず、どれが自作かも
+一目で分かります。pkgsrc 版は
+[pkgsrc-zakinko](https://github.com/zakinko/pkgsrc-zakinko) にあり、そちらと
+同じ形にしてあります。
 
 ## 置き方
 
-好きな場所に clone して、`/etc/make.conf` で重ねます。
+このリポジトリを `/usr/ports/zakinko` として配置します。
+
+```sh
+git clone git@github.com:zakinko/ports-zakinko.git /usr/ports/zakinko
+```
+
+すでに ports ツリーを git で管理していて中に別リポジトリを置きたくない場合は、
+別の場所に clone してオーバーレイとして重ねてください。
 
 ```sh
 git clone git@github.com:zakinko/ports-zakinko.git /usr/local/ports-zakinko
 echo 'OVERLAYS+=/usr/local/ports-zakinko' >> /etc/make.conf
 ```
 
-オーバーレイはカテゴリごと重なるので、本家の `net` や `security` を
-置き換えることはありません。`bsd.port.mk` の類は本家のものが使われます。
+ただしオーバーレイはカテゴリごと重なるので、この場合リポジトリの中身は
+`/usr/local/ports-zakinko/zakinko/` に置き直す必要があります。素直なのは
+前者です。
 
-オーバーレイを使わず、本家ツリーに直接置いても構いません。
+**どちらの場合も `/etc/make.conf` に一行足してください。**
 
 ```sh
-cp -R /usr/local/ports-zakinko/net/nss_stns /usr/ports/net/
+echo 'VALID_CATEGORIES+=zakinko' >> /etc/make.conf
 ```
+
+`bsd.port.mk` の `check-sanity` が `CATEGORIES` を本家のカテゴリ一覧と
+突き合わせるので、これが無いと `zakinko` は「不正なカテゴリ」として弾かれます。
+pkgsrc にこれに当たるものは無く、ディレクトリさえあれば通ります。
 
 ## 使い方
 
 ```sh
-cd /usr/ports/net/nss_stns
+cd /usr/ports/zakinko/nss_stns
 make install clean
 ```
 
@@ -51,11 +62,15 @@ make package
 
 ## 収録 port
 
-| Port | 内容 |
-| --- | --- |
-| [net/nss_stns](net/nss_stns/) | STNS の名前解決スイッチモジュール |
-| [security/github-keys](security/github-keys/) | GitHub に公開された SSH 鍵を sshd に渡す |
-| [security/stnsd](security/stnsd/) | 小さな STNS API サーバ |
+| Port | 第二カテゴリ | 内容 |
+| --- | --- | --- |
+| [github-keys](github-keys/) | `security` | GitHub に公開された SSH 鍵を sshd に渡す |
+| [nss_stns](nss_stns/) | `net` | STNS の名前解決スイッチモジュール |
+| [stnsd](stnsd/) | `security` | 小さな STNS API サーバ |
+
+第二カテゴリは本家に投げるときの置き場所です。nss_stns が `net` で
+github-keys が `security` なのは、前者がディレクトリのクライアントなのに対し、
+後者は誰がログインしてよいかを決めるものだからです。
 
 ## net/nss_stns が `@postexec` を持っている理由
 
@@ -79,5 +94,6 @@ DPorts 用のディレクトリは意図的に置いていません。DPorts は
 そのまま置いて動きます。
 
 ```sh
-cp -R /usr/local/ports-zakinko/net/nss_stns /usr/dports/net/
+git clone git@github.com:zakinko/ports-zakinko.git /usr/dports/zakinko
+echo 'VALID_CATEGORIES+=zakinko' >> /etc/make.conf
 ```

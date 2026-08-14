@@ -1,7 +1,7 @@
 PORTNAME=	github-keys
 DISTVERSIONPREFIX=	v
 DISTVERSION=	0.1.0
-CATEGORIES=	security
+CATEGORIES=	zakinko security
 
 MAINTAINER=	zakinko@snowrabbit.org
 COMMENT=	Serve a user's published GitHub SSH keys to sshd

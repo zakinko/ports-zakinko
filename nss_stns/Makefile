@@ -1,7 +1,7 @@
 PORTNAME=	nss_stns
 DISTVERSIONPREFIX=	v
 DISTVERSION=	0.1.0
-CATEGORIES=	net
+CATEGORIES=	zakinko net
 
 MAINTAINER=	zakinko@snowrabbit.org
 COMMENT=	STNS name service switch module

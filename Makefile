@@ -1,11 +1,15 @@
 #
-# zakinko の自作ソフトウェア用 ports オーバーレイ。
-# 本家 ports ツリーと混ぜず、OVERLAYS で重ねて使う。
+# zakinko の自作パッケージを置くローカルカテゴリ。
+# 本家 ports ツリーと混ざらないように、独立したカテゴリとして切っている。
+#
+# zakinko は本家の VALID_CATEGORIES に無いので、/etc/make.conf で足すこと。
+# 詳しくは README.md を見てほしい。
 #
 
-    COMMENT = Ports maintained by zakinko
+    COMMENT = Local ports maintained by zakinko
 
-    SUBDIR += net
-    SUBDIR += security
+    SUBDIR += github-keys
+    SUBDIR += nss_stns
+    SUBDIR += stnsd
 
 .include <bsd.port.subdir.mk>
