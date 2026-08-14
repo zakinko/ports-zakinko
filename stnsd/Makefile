@@ -1,6 +1,6 @@
 PORTNAME=	stnsd
 DISTVERSIONPREFIX=	v
-DISTVERSION=	0.2.0
+DISTVERSION=	0.3.0
 CATEGORIES=	zakinko security
 
 MAINTAINER=	zakinko@snowrabbit.org
